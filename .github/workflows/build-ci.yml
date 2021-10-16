@@ -2,11 +2,9 @@ name: Build-CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
-    paths:
-      - "."
+    branches: [main]
 
 jobs:
   build:
@@ -30,15 +28,15 @@ jobs:
         run: dotnet build
       - name: Test solution
         run: dotnet test
-      - name: Archive build artifacts
+      - name: Archive build artifacts-${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
-          name: build-artifacts
+          name: build-artifacts-${{ matrix.os }}
           path: ./EFCore.IncludeBuilder/bin
       - name: Benchmark
-        run: dotnet run --project EFCore.IncludeBuilder.Benchmarks -c Release
-      - name: Archive build artifacts
+        run: dotnet run --project ./EFCore.IncludeBuilder.Benchmarks -c Release
+      - name: Archive build artifacts-${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
-          name: benchmarks
+          name: benchmarks-${{ matrix.os }}
           path: ./BenchmarkDotNet.Artifacts/

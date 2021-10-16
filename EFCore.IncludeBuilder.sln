@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCore.IncludeBuilder", "EFCore.IncludeBuilder\EFCore.IncludeBuilder.csproj", "{237276EA-D3D4-4A04-963D-A39A1B286617}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder", "EFCore.IncludeBuilder\EFCore.IncludeBuilder.csproj", "{237276EA-D3D4-4A04-963D-A39A1B286617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCore.IncludeBuilder.Tests", "EFCore.IncludeBuilder.Tests\EFCore.IncludeBuilder.Tests.csproj", "{1F37DC5F-F6A0-46B5-9E37-2F024268E6C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder.Tests", "EFCore.IncludeBuilder.Tests\EFCore.IncludeBuilder.Tests.csproj", "{1F37DC5F-F6A0-46B5-9E37-2F024268E6C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfCore.IncludeBuilder.Benchmarks", "EfCore.IncludeBuilder.Benchmarks\EfCore.IncludeBuilder.Benchmarks.csproj", "{830969C0-5104-40FF-873E-E88FBE96C8DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder.Benchmarks", "EfCore.IncludeBuilder.Benchmarks\EFCore.IncludeBuilder.Benchmarks.csproj", "{830969C0-5104-40FF-873E-E88FBE96C8DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCore.IncludeBuilder.Tests.Common", "EFCore.IncludeBuilder.Tests.Common\EFCore.IncludeBuilder.Tests.Common.csproj", "{D2A114BD-7217-415A-B71B-D29728EAEA5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder.Tests.Common", "EFCore.IncludeBuilder.Tests.Common\EFCore.IncludeBuilder.Tests.Common.csproj", "{D2A114BD-7217-415A-B71B-D29728EAEA5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -34,7 +34,7 @@ jobs:
           name: build-artifacts
           path: ./EFCore.IncludeBuilder/bin
       - name: Benchmark
-        run: dotnet run --project EFCore.IncludeBuilder.Benchmarks -c Release
+        run: dotnet run --project ./EFCore.IncludeBuilder.Benchmarks -c Release
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
         with:

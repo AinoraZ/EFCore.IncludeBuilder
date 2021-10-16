@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder", "EF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder.Tests", "EFCore.IncludeBuilder.Tests\EFCore.IncludeBuilder.Tests.csproj", "{1F37DC5F-F6A0-46B5-9E37-2F024268E6C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder.Benchmarks", "EfCore.IncludeBuilder.Benchmarks\EFCore.IncludeBuilder.Benchmarks.csproj", "{830969C0-5104-40FF-873E-E88FBE96C8DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder.Benchmarks", "EFCore.IncludeBuilder.Benchmarks\EFCore.IncludeBuilder.Benchmarks.csproj", "{830969C0-5104-40FF-873E-E88FBE96C8DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.IncludeBuilder.Tests.Common", "EFCore.IncludeBuilder.Tests.Common\EFCore.IncludeBuilder.Tests.Common.csproj", "{D2A114BD-7217-415A-B71B-D29728EAEA5B}"
 EndProject

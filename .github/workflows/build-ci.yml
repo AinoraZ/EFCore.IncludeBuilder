@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     defaults:
       run:
         shell: bash
@@ -24,18 +25,22 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install deps
+        run: dotnet restore
       - name: Build solution
-        run: dotnet build
+        run: dotnet build -c Release --no-restore
       - name: Test solution
-        run: dotnet test
-      - name: Archive build artifacts-${{ matrix.os }}
+        run: dotnet test -c Release --no-build --no-restore
+      - name: Create package
+        run: dotnet pack -c Release --no-build --no-restore
+      - name: Archive build artifacts for OS-${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
           name: build-artifacts-${{ matrix.os }}
-          path: ./EFCore.IncludeBuilder/bin
+          path: ./EFCore.IncludeBuilder/bin/Release/
       - name: Benchmark
-        run: dotnet run --project ./EFCore.IncludeBuilder.Benchmarks -c Release
-      - name: Archive build artifacts-${{ matrix.os }}
+        run: dotnet run --project ./EFCore.IncludeBuilder.Benchmarks -c Release --no-build --no-restore
+      - name: Archive benchmarks for OS-${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
           name: benchmarks-${{ matrix.os }}

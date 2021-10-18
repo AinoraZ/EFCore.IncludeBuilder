@@ -283,7 +283,23 @@ namespace EFCore.IncludeBuilder.Tests
         }
 
         [Fact]
-        public void ExtensionIncludes_ShouldMatchExpected()
+        public void RootLevelExtensionIncludes_ShouldMatchExpected()
+        {
+            var actualQuery = testDbContext.Blogs
+                .UseIncludeBuilder()
+                .IncludeBlogChildren()
+                .Build()
+                .ToQueryString();
+
+            var expectedQuery = testDbContext.Blogs
+                .Include(u => u.Posts)
+                .ToQueryString();
+
+            actualQuery.Should().Be(expectedQuery);
+        }
+
+        [Fact]
+        public void MultiLevelExtensionIncludes_ShouldMatchExpected()
         {
             var actualQuery = testDbContext.Users
                 .UseIncludeBuilder()
@@ -311,7 +327,7 @@ namespace EFCore.IncludeBuilder.Tests
         }
 
         [Fact]
-        public void DifferentExtensionIncludes_ShouldNotMatch()
+        public void DifferentMultiLevelExtensionIncludes_ShouldNotMatch()
         {
             var actualQuery = testDbContext.Users
                 .UseIncludeBuilder()

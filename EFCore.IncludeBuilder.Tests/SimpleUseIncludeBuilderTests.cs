@@ -1,9 +1,12 @@
 using EFCore.IncludeBuilder.Extensions;
 using EFCore.IncludeBuilder.Tests;
 using EFCore.IncludeBuilder.Tests.Common;
+using EFCore.IncludeBuilder.Tests.Common.Models;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace EFCore.IncludeBuilder.Tests
@@ -34,6 +37,22 @@ namespace EFCore.IncludeBuilder.Tests
                 .ToQueryString();
 
             actualQuery.Should().Be(expectedQuery);
+        }
+
+        [Fact]
+        public void NotEntityQueryProvider_ShouldNotThrow()
+        {
+            Func<IEnumerable<User>> getUsers = () => new List<User>()
+                .AsQueryable()
+                .UseIncludeBuilder()
+                .Include(u => u.OwnedBlog, builder => builder
+                    .Include(b => b.Followers)
+                )
+                .Build()
+                .ToList();
+
+            getUsers.Should().NotThrow();
+            getUsers().Should().BeEmpty();
         }
 
         [Fact]

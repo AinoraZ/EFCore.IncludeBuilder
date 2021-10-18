@@ -7,18 +7,18 @@ using System.Linq.Expressions;
 
 namespace EFCore.IncludeBuilder.Builders
 {
-    internal class EnumerableThenIncludeBuilder<TBase, TPreviousEntity, TEntity> : BaseIncludeBuilder<TBase>, IIncludeBuilder<TBase, TEntity> where TBase : class
+    internal class EnumerableThenIncludeBuilder<TBase, TPreviousEntity, TEntity> : BaseIncludeBuilder<TBase>, IChildIncludeBuilder<TBase, TEntity> where TBase : class
     {
-        private readonly BaseIncludeApplier<TBase, TPreviousEntity, IEnumerable<TEntity>> currentLevelApplier;
+        private readonly BaseIncludeApplier<TBase, TPreviousEntity, IEnumerable<TEntity>> currentLevelIncludeApplier;
 
         internal EnumerableThenIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder, BaseIncludeApplier<TBase, TPreviousEntity, IEnumerable<TEntity>> applier) : base(parentBuilder)
         {
-            currentLevelApplier = applier;
+            currentLevelIncludeApplier = applier;
         }
 
-        public IIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
+        public IChildIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
             Expression<Func<TEntity, TNextProperty>> navigationPropertyPath,
-            Action<IIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<IChildIncludeBuilder<TBase, TNextProperty>> builder = null)
         {
             var includeApplier = new ThenIncludeApplier<TBase, TEntity, TNextProperty>(navigationPropertyPath);
             var childBuilder = new ThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);
@@ -29,9 +29,9 @@ namespace EFCore.IncludeBuilder.Builders
             return this;
         }
 
-        public IIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
+        public IChildIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
             Expression<Func<TEntity, IEnumerable<TNextProperty>>> navigationPropertyPath,
-            Action<IIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<IChildIncludeBuilder<TBase, TNextProperty>> builder = null)
         {
             var includeApplier = new ThenIncludeApplier<TBase, TEntity, IEnumerable<TNextProperty>>(navigationPropertyPath);
             var childBuilder = new EnumerableThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);
@@ -42,6 +42,6 @@ namespace EFCore.IncludeBuilder.Builders
             return this;
         }
 
-        internal override IQueryable<TBase> Apply(IQueryable<TBase> query) => currentLevelApplier.Apply(query);
+        internal override IQueryable<TBase> Apply(IQueryable<TBase> query) => currentLevelIncludeApplier.Apply(query);
     }
 }

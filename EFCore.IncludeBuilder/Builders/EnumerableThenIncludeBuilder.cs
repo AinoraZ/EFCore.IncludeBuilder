@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace EFCore.IncludeBuilder.Builders
 {
-    internal class EnumerableThenIncludeBuilder<TBase, TPreviousEntity, TEntity> : BaseIncludeBuilder<TBase>, IChildIncludeBuilder<TBase, TEntity> where TBase : class
+    internal class EnumerableThenIncludeBuilder<TBase, TPreviousEntity, TEntity> : BaseIncludeBuilder<TBase>, INestedIncludeBuilder<TBase, TEntity> where TBase : class
     {
         private readonly BaseIncludeApplier<TBase, TPreviousEntity, IEnumerable<TEntity>> currentLevelIncludeApplier;
 
@@ -16,9 +16,9 @@ namespace EFCore.IncludeBuilder.Builders
             currentLevelIncludeApplier = applier;
         }
 
-        public IChildIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
+        public INestedIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
             Expression<Func<TEntity, TNextProperty>> navigationPropertyPath,
-            Action<IChildIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null)
         {
             var includeApplier = new ThenIncludeApplier<TBase, TEntity, TNextProperty>(navigationPropertyPath);
             var childBuilder = new ThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);
@@ -29,9 +29,9 @@ namespace EFCore.IncludeBuilder.Builders
             return this;
         }
 
-        public IChildIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
+        public INestedIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
             Expression<Func<TEntity, IEnumerable<TNextProperty>>> navigationPropertyPath,
-            Action<IChildIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null)
         {
             var includeApplier = new ThenIncludeApplier<TBase, TEntity, IEnumerable<TNextProperty>>(navigationPropertyPath);
             var childBuilder = new EnumerableThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);

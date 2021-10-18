@@ -8,7 +8,7 @@ namespace EFCore.IncludeBuilder.Builders.Interfaces
         where TBase : class
         where TReturn : IIncludeBuilder<TBase, TEntity, TReturn>
     {
-        TReturn Include<TNextProperty>(Expression<Func<TEntity, IEnumerable<TNextProperty>>> navigationPropertyPath, Action<IChildIncludeBuilder<TBase, TNextProperty>> builder = null);
-        TReturn Include<TNextProperty>(Expression<Func<TEntity, TNextProperty>> navigationPropertyPath, Action<IChildIncludeBuilder<TBase, TNextProperty>> builder = null);
+        TReturn Include<TNextProperty>(Expression<Func<TEntity, IEnumerable<TNextProperty>>> navigationPropertyPath, Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null);
+        TReturn Include<TNextProperty>(Expression<Func<TEntity, TNextProperty>> navigationPropertyPath, Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null);
     }
 }

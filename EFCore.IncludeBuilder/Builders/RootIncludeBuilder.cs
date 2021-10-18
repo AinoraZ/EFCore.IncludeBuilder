@@ -21,10 +21,10 @@ namespace EFCore.IncludeBuilder.Builders
             Action<IIncludeBuilder<TBase, TNextProperty>> builder = null)
         {
             var includeApplier = new IncludeApplier<TBase, TNextProperty>(navigationPropertyPath);
-            var childBuilder = new ThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
-            builder?.Invoke(childBuilder);
+            var child = new ThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
+            builder?.Invoke(child);
 
-            IncludableBuilders.Add(childBuilder);
+            ChildBuilders.Add(child);
 
             return this;
         }
@@ -37,7 +37,7 @@ namespace EFCore.IncludeBuilder.Builders
             var childBuilder = new EnumerableThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
             builder?.Invoke(childBuilder);
 
-            IncludableBuilders.Add(childBuilder);
+            ChildBuilders.Add(childBuilder);
 
             return this;
         }
@@ -47,7 +47,7 @@ namespace EFCore.IncludeBuilder.Builders
             var builtSource = source;
             foreach (var leafBuilder in GetLeafNodes())
             {
-                var parentChain = GetParentChain(leafBuilder);
+                var parentChain = GetAncestorChain(leafBuilder);
                 foreach (var node in parentChain)
                 {
                     builtSource = node.Apply(builtSource);
@@ -57,7 +57,7 @@ namespace EFCore.IncludeBuilder.Builders
             return builtSource;
         }
 
-        private static IEnumerable<BaseIncludeBuilder<TBase>> GetParentChain(BaseIncludeBuilder<TBase> node)
+        private static IEnumerable<BaseIncludeBuilder<TBase>> GetAncestorChain(BaseIncludeBuilder<TBase> node)
         {
             var chain = new List<BaseIncludeBuilder<TBase>>();
             BaseIncludeBuilder<TBase> currentNode = node;

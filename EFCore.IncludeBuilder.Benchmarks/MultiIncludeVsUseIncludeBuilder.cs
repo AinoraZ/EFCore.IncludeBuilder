@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace EFCore.IncludeBuilder.Benchmarks
 {
+    [MemoryDiagnoser]
     public class MultiIncludeVsUseIncludeBuilder
     {
         private TestDbContext testDbContext;

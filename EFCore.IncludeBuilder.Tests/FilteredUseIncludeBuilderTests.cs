@@ -21,6 +21,7 @@ namespace EFCore.IncludeBuilder.Tests
         public void Dispose()
         {
             testDbContext.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         [Fact]
@@ -199,10 +200,12 @@ namespace EFCore.IncludeBuilder.Tests
             var authorId = Guid.NewGuid();
             var actualQuery = testDbContext.Users
                 .UseIncludeBuilder()
-                .IncludeBlogChildren(u => u.OwnedBlog)
                 .Include(u => u.OwnedBlog, builder => builder
+                    .IncludeBlogChildren()
                     .Include(b => b.Followers, builder => builder
-                        .IncludeBlogChildren(f => f.FollowingBlogs.Where(b => b.AuthorId == authorId))
+                        .Include(f => f.FollowingBlogs.Where(b => b.AuthorId == authorId), builder => builder
+                            .IncludeBlogChildren()
+                        )
                     )
                 )
                 .Build()
@@ -226,10 +229,12 @@ namespace EFCore.IncludeBuilder.Tests
             var authorId = Guid.NewGuid();
             var actualQuery = testDbContext.Users
                 .UseIncludeBuilder()
-                .IncludeBlogChildren(u => u.OwnedBlog)
                 .Include(u => u.OwnedBlog, builder => builder
+                    .IncludeBlogChildren()
                     .Include(b => b.Followers, builder => builder
-                        .IncludeBlogChildren(f => f.FollowingBlogs)
+                        .Include(u => u.FollowingBlogs, builder => builder
+                            .IncludeBlogChildren()
+                        )
                     )
                 )
                 .Build()

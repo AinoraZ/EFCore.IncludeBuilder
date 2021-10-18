@@ -21,10 +21,10 @@ namespace EFCore.IncludeBuilder.Builders
             Action<IIncludeBuilder<TBase, TNextProperty>> builder = null)
         {
             var includeApplier = new IncludeApplier<TBase, TNextProperty>(navigationPropertyPath);
-            var child = new ThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
-            builder?.Invoke(child);
+            var childBuilder = new ThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
+            builder?.Invoke(childBuilder);
 
-            ChildBuilders.Add(child);
+            ChildBuilders.Add(childBuilder);
 
             return this;
         }

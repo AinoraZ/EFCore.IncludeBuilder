@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using EFCore.IncludeBuilder.Exceptions;
 
 namespace EFCore.IncludeBuilder.Appliers
 {
@@ -19,15 +20,12 @@ namespace EFCore.IncludeBuilder.Appliers
         internal override IQueryable<TBase> Apply(IQueryable<TBase> queryable)
         {
             if (queryable is IIncludableQueryable<TBase, IEnumerable<TEntity>> enumerableIncludableQueryable)
-            {
                 return enumerableIncludableQueryable.ThenInclude(navigationPropertyPath);
-            }
-            else if (queryable is IIncludableQueryable<TBase, TEntity> includableQueryable)
-            {
-                return includableQueryable.ThenInclude(navigationPropertyPath);
-            }
 
-            throw new Exception("Unsupported Includable Query.");
+            else if (queryable is IIncludableQueryable<TBase, TEntity> includableQueryable)
+                return includableQueryable.ThenInclude(navigationPropertyPath);
+
+            throw new IncludeConversionFailedException($"Found unsupported IQueryable type that cannot have .ThenInclude applied. Found type: {queryable.GetType()}.");
         }
     }
 }

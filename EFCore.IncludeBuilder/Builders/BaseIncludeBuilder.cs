@@ -5,7 +5,7 @@ namespace EFCore.IncludeBuilder.Builders
 {
     internal abstract class BaseIncludeBuilder<TBase> where TBase : class
     {
-        internal List<BaseIncludeBuilder<TBase>> IncludableBuilders { get; } = new();
+        internal List<BaseIncludeBuilder<TBase>> ChildBuilders { get; } = new();
 
         internal BaseIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder)
         {
@@ -18,8 +18,8 @@ namespace EFCore.IncludeBuilder.Builders
 
         internal IEnumerable<BaseIncludeBuilder<TBase>> GetLeafNodes()
         {
-            if (IncludableBuilders.Any())
-                return IncludableBuilders.SelectMany(i => i.GetLeafNodes());
+            if (ChildBuilders.Any())
+                return ChildBuilders.SelectMany(i => i.GetLeafNodes());
 
             return new List<BaseIncludeBuilder<TBase>> { this };
         }

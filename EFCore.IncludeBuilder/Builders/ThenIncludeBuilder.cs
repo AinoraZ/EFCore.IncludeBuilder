@@ -9,11 +9,11 @@ namespace EFCore.IncludeBuilder.Builders
 {
     internal class ThenIncludeBuilder<TBase, TPreviousEntity, TEntity> : BaseIncludeBuilder<TBase>, IIncludeBuilder<TBase, TEntity> where TBase : class
     {
-        private readonly BaseIncludeApplier<TBase, TPreviousEntity, TEntity> parentApplier;
+        private readonly BaseIncludeApplier<TBase, TPreviousEntity, TEntity> currentLevelApplier;
 
         internal ThenIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder, BaseIncludeApplier<TBase, TPreviousEntity, TEntity> applier) : base(parentBuilder)
         {
-            parentApplier = applier;
+            currentLevelApplier = applier;
         }
 
         public IIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
@@ -24,7 +24,7 @@ namespace EFCore.IncludeBuilder.Builders
             var childBuilder = new ThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);
             builder?.Invoke(childBuilder);
 
-            IncludableBuilders.Add(childBuilder);
+            ChildBuilders.Add(childBuilder);
 
             return this;
         }
@@ -37,11 +37,11 @@ namespace EFCore.IncludeBuilder.Builders
             var childBuilder = new EnumerableThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);
             builder?.Invoke(childBuilder);
 
-            IncludableBuilders.Add(childBuilder);
+            ChildBuilders.Add(childBuilder);
 
             return this;
         }
 
-        internal override IQueryable<TBase> Apply(IQueryable<TBase> query) => parentApplier.Apply(query);
+        internal override IQueryable<TBase> Apply(IQueryable<TBase> query) => currentLevelApplier.Apply(query);
     }
 }

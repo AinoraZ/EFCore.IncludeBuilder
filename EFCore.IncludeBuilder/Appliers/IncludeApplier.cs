@@ -14,9 +14,7 @@ namespace EFCore.IncludeBuilder.Appliers
             this.navigationPropertyPath = navigationPropertyPath;
         }
 
-        internal override IQueryable<TBase> Apply(IQueryable<TBase> queryable)
-        {
-            return queryable.Include(navigationPropertyPath);
-        }
+        internal override IQueryable<TBase> Apply(IQueryable<TBase> queryable) =>
+            queryable.Include(navigationPropertyPath);
     }
 }

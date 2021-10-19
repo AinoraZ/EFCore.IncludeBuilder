@@ -7,12 +7,12 @@ namespace EFCore.IncludeBuilder.Builders
     {
         internal List<BaseIncludeBuilder<TBase>> ChildBuilders { get; } = new();
 
-        internal BaseIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder)
+        internal BaseIncludeBuilder(BaseIncludeBuilder<TBase>? parentBuilder)
         {
             ParentBuilder = parentBuilder;
         }
 
-        internal BaseIncludeBuilder<TBase> ParentBuilder { get; }
+        internal BaseIncludeBuilder<TBase>? ParentBuilder { get; }
 
         internal abstract IQueryable<TBase> Apply(IQueryable<TBase> query);
 

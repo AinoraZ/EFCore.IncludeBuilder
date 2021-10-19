@@ -18,7 +18,7 @@ namespace EFCore.IncludeBuilder.Builders
 
         public INestedIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
             Expression<Func<TEntity, TNextProperty>> navigationPropertyPath,
-            Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<INestedIncludeBuilder<TBase, TNextProperty>>? builder = null)
         {
             var includeApplier = new ThenIncludeApplier<TBase, TEntity, TNextProperty>(navigationPropertyPath);
             var childBuilder = new ThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);
@@ -31,7 +31,7 @@ namespace EFCore.IncludeBuilder.Builders
 
         public INestedIncludeBuilder<TBase, TEntity> Include<TNextProperty>(
             Expression<Func<TEntity, IEnumerable<TNextProperty>>> navigationPropertyPath,
-            Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<INestedIncludeBuilder<TBase, TNextProperty>>? builder = null)
         {
             var includeApplier = new ThenIncludeApplier<TBase, TEntity, IEnumerable<TNextProperty>>(navigationPropertyPath);
             var childBuilder = new EnumerableThenIncludeBuilder<TBase, TEntity, TNextProperty>(this, includeApplier);

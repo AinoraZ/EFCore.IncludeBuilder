@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
-using System.Linq;
+﻿using System.Linq;
 
 namespace EFCore.IncludeBuilder.Appliers
 {

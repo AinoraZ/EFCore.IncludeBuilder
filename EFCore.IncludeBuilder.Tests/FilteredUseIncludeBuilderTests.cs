@@ -251,5 +251,43 @@ namespace EFCore.IncludeBuilder.Tests
 
             actualQuery.Should().NotBe(expectedQuery);
         }
+
+        [Fact]
+        public void FilteredIncludeChain_ShouldMatchExpected()
+        {
+            var actualQuery = testDbContext.Users
+                .UseIncludeBuilder()
+                .Include(u => u.OwnedBlog.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)), builder => builder
+                    .Include(p => p.Readers)
+                )
+                .Build()
+                .ToQueryString();
+
+            var expectedQuery = testDbContext.Users
+                .Include(u => u.OwnedBlog.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
+                    .ThenInclude(p => p.Readers)
+                .ToQueryString();
+
+            actualQuery.Should().Be(expectedQuery);
+        }
+
+        [Fact]
+        public void FilteredDifferentIncludeChain_ShouldNotMatch()
+        {
+            var actualQuery = testDbContext.Users
+                .UseIncludeBuilder()
+                .Include(u => u.OwnedBlog.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)), builder => builder
+                    .Include(p => p.Readers)
+                )
+                .Build()
+                .ToQueryString();
+
+            var expectedQuery = testDbContext.Users
+                .Include(u => u.OwnedBlog.Posts)
+                    .ThenInclude(p => p.Readers)
+                .ToQueryString();
+
+            actualQuery.Should().NotBe(expectedQuery);
+        }
     }
 }

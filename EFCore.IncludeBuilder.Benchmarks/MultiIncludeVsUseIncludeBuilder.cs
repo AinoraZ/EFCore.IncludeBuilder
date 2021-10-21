@@ -10,7 +10,7 @@ namespace EFCore.IncludeBuilder.Benchmarks
     [MemoryDiagnoser]
     public class MultiIncludeVsUseIncludeBuilder
     {
-        private TestDbContext testDbContext;
+        private readonly TestDbContext testDbContext;
 
         public MultiIncludeVsUseIncludeBuilder()
         {
@@ -23,7 +23,7 @@ namespace EFCore.IncludeBuilder.Benchmarks
             testDbContext.Dispose();
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public string Include()
         {
             return testDbContext.Users

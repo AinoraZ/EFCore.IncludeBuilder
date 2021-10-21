@@ -10,7 +10,7 @@ namespace EFCore.IncludeBuilder.Benchmarks
     [MemoryDiagnoser]
     public class IncludeVsUseIncludeBuilder
     {
-        private TestDbContext testDbContext;
+        private readonly TestDbContext testDbContext;
 
         public IncludeVsUseIncludeBuilder()
         {

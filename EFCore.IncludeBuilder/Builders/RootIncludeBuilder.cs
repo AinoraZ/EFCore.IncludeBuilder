@@ -18,7 +18,7 @@ namespace EFCore.IncludeBuilder.Builders
 
         public IRootIncludeBuilder<TBase> Include<TNextProperty>(
             Expression<Func<TBase, TNextProperty>> navigationPropertyPath,
-            Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<INestedIncludeBuilder<TBase, TNextProperty>>? builder = null)
         {
             var includeApplier = new IncludeApplier<TBase, TNextProperty>(navigationPropertyPath);
             var childBuilder = new ThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
@@ -31,7 +31,7 @@ namespace EFCore.IncludeBuilder.Builders
 
         public IRootIncludeBuilder<TBase> Include<TNextProperty>(
             Expression<Func<TBase, IEnumerable<TNextProperty>>> navigationPropertyPath,
-            Action<INestedIncludeBuilder<TBase, TNextProperty>> builder = null)
+            Action<INestedIncludeBuilder<TBase, TNextProperty>>? builder = null)
         {
             var includeApplier = new IncludeApplier<TBase, IEnumerable<TNextProperty>>(navigationPropertyPath);
             var childBuilder = new EnumerableThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
@@ -60,7 +60,7 @@ namespace EFCore.IncludeBuilder.Builders
         private static IEnumerable<BaseIncludeBuilder<TBase>> GetAncestorChain(BaseIncludeBuilder<TBase> node)
         {
             var chain = new List<BaseIncludeBuilder<TBase>>();
-            BaseIncludeBuilder<TBase> currentNode = node;
+            BaseIncludeBuilder<TBase>? currentNode = node;
 
             while (currentNode != null)
             {

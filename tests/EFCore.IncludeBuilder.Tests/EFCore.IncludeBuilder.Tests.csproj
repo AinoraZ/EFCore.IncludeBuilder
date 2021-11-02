@@ -1,9 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<IsPackable>false</IsPackable>
-	</PropertyGroup>
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.1.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
@@ -19,8 +14,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\src\EFCore.IncludeBuilder\EFCore.IncludeBuilder.csproj" />
 		<ProjectReference Include="..\EFCore.IncludeBuilder.Tests.Common\EFCore.IncludeBuilder.Tests.Common.csproj" />
-		<ProjectReference Include="..\EFCore.IncludeBuilder\EFCore.IncludeBuilder.csproj" />
 	</ItemGroup>
 
 </Project>

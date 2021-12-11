@@ -1,8 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -10,8 +9,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\src\EFCore.IncludeBuilder\EFCore.IncludeBuilder.csproj" />
 		<ProjectReference Include="..\EFCore.IncludeBuilder.Tests.Common\EFCore.IncludeBuilder.Tests.Common.csproj" />
-		<ProjectReference Include="..\EFCore.IncludeBuilder\EFCore.IncludeBuilder.csproj" />
 	</ItemGroup>
 
 </Project>

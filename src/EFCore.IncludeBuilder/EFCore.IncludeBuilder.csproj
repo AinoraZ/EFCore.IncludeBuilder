@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup Label="Source Link">
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	</PropertyGroup>
+
+	<ItemGroup Label="Package References">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" Version="1.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(EFCoreVersion)" />
+	</ItemGroup>
+</Project>

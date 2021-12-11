@@ -132,5 +132,21 @@ namespace EFCore.IncludeBuilder.Tests
 
             actualQuery.Should().Be(expectedQuery);
         }
+
+        [Fact]
+        public void NavigationFixup_WarningThrown()
+        {
+            var action = () => testDbContext.Users
+                .UseIncludeBuilder()
+                .Include(u => u.OwnedBlog, builder => builder
+                    .Include(b => b.Posts)
+                    .Include(b => b.Author)
+                )
+                .Build()
+                .ToQueryString();
+
+            action.Should().Throw<InvalidOperationException>()
+                .WithMessage("*'Microsoft.EntityFrameworkCore.Query.NavigationBaseIncludeIgnored'*");
+        }
     }
 }

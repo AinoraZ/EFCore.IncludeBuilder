@@ -196,8 +196,6 @@ namespace EFCore.IncludeBuilder.Tests
             var expectedQuery = testDbContext.Users
                 .Include(u => u.OwnedBlog)
                     .ThenInclude(b => b.Posts)
-                .Include(u => u.OwnedBlog)
-                    .ThenInclude(u => u.Author)
                 .ToQueryString();
 
             actualQuery.Should().NotBe(expectedQuery);

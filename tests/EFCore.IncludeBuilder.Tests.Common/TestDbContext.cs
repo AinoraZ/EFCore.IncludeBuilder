@@ -3,55 +3,54 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
-namespace EFCore.IncludeBuilder.Tests.Common
+namespace EFCore.IncludeBuilder.Tests.Common;
+
+public class TestDbContext : DbContext
 {
-    public class TestDbContext : DbContext
+    public TestDbContext() : base(
+        new DbContextOptionsBuilder<TestDbContext>()
+            .UseSqlite(CreateInMemoryDatabase())
+            .Options)
+    { }
+
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Blog> Blogs => Set<Blog>();
+    public DbSet<Post> Posts => Set<Post>();
+
+    private static DbConnection CreateInMemoryDatabase()
     {
-        public TestDbContext() : base(
-            new DbContextOptionsBuilder<TestDbContext>()
-                .UseSqlite(CreateInMemoryDatabase())
-                .Options)
-        { }
+        var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
 
-        public DbSet<User> Users => Set<User>();
-        public DbSet<Blog> Blogs => Set<Blog>();
-        public DbSet<Post> Posts => Set<Post>();
+        return connection;
+    }
 
-        private static DbConnection CreateInMemoryDatabase()
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>(builder =>
         {
-            var connection = new SqliteConnection("Filename=:memory:");
-            connection.Open();
+            builder
+                .HasMany(u => u.Posts)
+                .WithOne(p => p.Author);
 
-            return connection;
-        }
+            builder
+                .HasOne(u => u.OwnedBlog)
+                .WithOne(b => b.Author);
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+            builder
+                .HasMany(u => u.FollowingBlogs)
+                .WithMany(b => b.Followers);
+
+            builder
+                .HasMany(u => u.ReadHistory)
+                .WithMany(p => p.Readers);
+        });
+
+        modelBuilder.Entity<Blog>(builder =>
         {
-            modelBuilder.Entity<User>(builder =>
-            {
-                builder
-                    .HasMany(u => u.Posts)
-                    .WithOne(p => p.Author);
-
-                builder
-                    .HasOne(u => u.OwnedBlog)
-                    .WithOne(b => b.Author);
-
-                builder
-                    .HasMany(u => u.FollowingBlogs)
-                    .WithMany(b => b.Followers);
-
-                builder
-                    .HasMany(u => u.ReadHistory)
-                    .WithMany(p => p.Readers);
-            });
-
-            modelBuilder.Entity<Blog>(builder =>
-            {
-                builder
-                    .HasMany(b => b.Posts)
-                    .WithOne(p => p.Blog);
-            });
-        }
+            builder
+                .HasMany(b => b.Posts)
+                .WithOne(p => p.Blog);
+        });
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 
-namespace EFCore.IncludeBuilder.Builders.Interfaces
+namespace EFCore.IncludeBuilder.Builders.Interfaces;
+
+public interface IIncludeQueryBuildable<TBase> where TBase : class
 {
-    public interface IIncludeQueryBuildable<TBase> where TBase : class
-    {
-        IQueryable<TBase> Build();
-    }
+    IQueryable<TBase> Build();
 }

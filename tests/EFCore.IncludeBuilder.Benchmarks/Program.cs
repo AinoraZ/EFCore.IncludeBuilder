@@ -1,12 +1,11 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace EFCore.IncludeBuilder.Benchmarks
+namespace EFCore.IncludeBuilder.Benchmarks;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            BenchmarkRunner.Run(typeof(Program).Assembly);
-        }
+        BenchmarkRunner.Run(typeof(Program).Assembly);
     }
 }

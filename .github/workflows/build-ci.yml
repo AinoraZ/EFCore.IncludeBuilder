@@ -37,9 +37,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-artifacts-${{ matrix.os }}
-          path: ./EFCore.IncludeBuilder/bin/Release/
+          path: ./src/EFCore.IncludeBuilder/bin/Release/
       - name: Benchmark
-        run: dotnet run --project ./EFCore.IncludeBuilder.Benchmarks -c Release --no-build --no-restore
+        run: dotnet run --project ./tests/EFCore.IncludeBuilder.Benchmarks -c Release --no-build --no-restore
       - name: Archive benchmarks for OS-${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:

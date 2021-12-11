@@ -9,6 +9,5 @@
 
 	<PropertyGroup>
 		<EFCoreVersion>5.0.0</EFCoreVersion>
-		<TestEFCoreVersion>5.0.11</TestEFCoreVersion>
 	</PropertyGroup>
 </Project>

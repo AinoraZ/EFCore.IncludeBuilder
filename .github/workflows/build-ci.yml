@@ -30,16 +30,16 @@ jobs:
       - name: Build solution
         run: dotnet build -c Release --no-restore
       - name: Test solution
-        run: dotnet test -c Release --no-build --no-restore
+        run: dotnet test -c Release --no-build
       - name: Create package
-        run: dotnet pack -c Release --no-build --no-restore
+        run: dotnet pack -c Release --no-build
       - name: Archive build artifacts for OS-${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:
           name: build-artifacts-${{ matrix.os }}
-          path: ./src/EFCore.IncludeBuilder/bin/Release/
+          path: ./src/Ainoraz.EFCore.IncludeBuilder/bin/Release/
       - name: Benchmark
-        run: dotnet run --project ./tests/EFCore.IncludeBuilder.Benchmarks -c Release --no-build --no-restore
+        run: dotnet run --project ./tests/Ainoraz.EFCore.IncludeBuilder.Benchmarks -c Release --no-build
       - name: Archive benchmarks for OS-${{ matrix.os }}
         uses: actions/upload-artifact@v2
         with:

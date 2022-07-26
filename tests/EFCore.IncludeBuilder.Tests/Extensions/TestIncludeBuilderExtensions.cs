@@ -1,5 +1,5 @@
 ﻿using Ainoraz.EFCore.IncludeBuilder.Builders.Interfaces;
-using Ainoraz.EFCore.IncludeBuilder.Common.Models;
+using Ainoraz.EFCore.IncludeBuilder.Tests.Common.Models;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Extensions;
 

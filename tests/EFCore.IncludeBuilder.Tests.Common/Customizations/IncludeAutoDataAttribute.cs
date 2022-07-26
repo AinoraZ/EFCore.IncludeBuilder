@@ -1,7 +1,7 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
 
-namespace Ainoraz.EFCore.IncludeBuilder.Common.Customizations;
+namespace Ainoraz.EFCore.IncludeBuilder.Tests.Common.Customizations;
 
 public class IncludeAutoDataAttribute : AutoDataAttribute
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
-using EFCore.IncludeBuilder.Tests.Common.Customizations;
+using Ainoraz.EFCore.IncludeBuilder.Tests.Common.Customizations;
 using Ainoraz.EFCore.IncludeBuilder.Extensions;
-using Ainoraz.EFCore.IncludeBuilder.Common.Models;
+using Ainoraz.EFCore.IncludeBuilder.Tests.Common.Models;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 

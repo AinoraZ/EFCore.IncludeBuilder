@@ -1,9 +1,9 @@
-﻿using Ainoraz.EFCore.IncludeBuilder.Common.Models;
+﻿using Ainoraz.EFCore.IncludeBuilder.Tests.Common.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
-namespace Ainoraz.EFCore.IncludeBuilder.Common;
+namespace Ainoraz.EFCore.IncludeBuilder.Tests.Common;
 
 public class TestDbContext : DbContext
 {

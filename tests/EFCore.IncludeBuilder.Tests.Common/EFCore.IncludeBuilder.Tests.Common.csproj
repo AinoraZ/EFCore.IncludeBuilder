@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<RootNamespace>Ainoraz.EFCore.IncludeBuilder.Common</RootNamespace>
+		<RootNamespace>Ainoraz.EFCore.IncludeBuilder.Tests.Common</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -1,5 +1,5 @@
-﻿using Ainoraz.EFCore.IncludeBuilder.Common;
-using Ainoraz.EFCore.IncludeBuilder.Extensions;
+﻿using Ainoraz.EFCore.IncludeBuilder.Extensions;
+using Ainoraz.EFCore.IncludeBuilder.Tests.Common;
 using BenchmarkDotNet.Attributes;
 using Microsoft.EntityFrameworkCore;
 using System;

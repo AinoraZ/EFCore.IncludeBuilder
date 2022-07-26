@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
+		<RootNamespace>Ainoraz.EFCore.IncludeBuilder.Benchmarks</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

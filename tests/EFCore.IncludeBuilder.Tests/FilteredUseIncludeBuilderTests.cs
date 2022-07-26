@@ -1,13 +1,12 @@
-using EFCore.IncludeBuilder.Extensions;
-using EFCore.IncludeBuilder.Tests;
-using EFCore.IncludeBuilder.Tests.Common;
+using Ainoraz.EFCore.IncludeBuilder.Common;
+using Ainoraz.EFCore.IncludeBuilder.Extensions;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace EFCore.IncludeBuilder.Tests;
+namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 
 public class FilteredUseIncludeBuilderTests : IDisposable
 {
@@ -37,7 +36,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -53,7 +52,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -72,7 +71,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Include(u => u.FollowingBlogs.Where(b => b.AuthorId == authorId))
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -91,7 +90,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Include(u => u.FollowingBlogs.Where(b => b.AuthorId == authorId))
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -110,7 +109,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -129,7 +128,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -151,7 +150,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                 .ThenInclude(b => b.Followers.Where(b => b.ReadHistory.Count() > 5))
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -191,7 +190,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                     .ThenInclude(f => f.OwnedBlog)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -220,7 +219,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                         .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -249,7 +248,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                         .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -268,7 +267,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                 .ThenInclude(p => p.Readers)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -287,6 +286,6 @@ public class FilteredUseIncludeBuilderTests : IDisposable
                 .ThenInclude(p => p.Readers)
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 }

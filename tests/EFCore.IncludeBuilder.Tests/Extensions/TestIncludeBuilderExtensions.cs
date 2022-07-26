@@ -1,7 +1,7 @@
-﻿using EFCore.IncludeBuilder.Builders.Interfaces;
-using EFCore.IncludeBuilder.Tests.Common.Models;
+﻿using Ainoraz.EFCore.IncludeBuilder.Builders.Interfaces;
+using Ainoraz.EFCore.IncludeBuilder.Common.Models;
 
-namespace EFCore.IncludeBuilder.Tests;
+namespace Ainoraz.EFCore.IncludeBuilder.Extensions;
 
 public static class TestIncludeBuilderExtensions
 {

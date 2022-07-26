@@ -5,7 +5,6 @@
 		<Nullable>enable</Nullable>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<TargetFramework>net6.0</TargetFramework>
-		<RootNamespace>Ainoraz.EFCore.IncludeBuilder</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup>

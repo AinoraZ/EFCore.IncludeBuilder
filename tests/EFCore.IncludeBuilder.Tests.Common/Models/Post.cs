@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EFCore.IncludeBuilder.Tests.Common.Models;
+namespace Ainoraz.EFCore.IncludeBuilder.Common.Models;
 
 public class Post
 {

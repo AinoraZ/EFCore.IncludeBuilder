@@ -1,11 +1,11 @@
-﻿using BenchmarkDotNet.Attributes;
-using EFCore.IncludeBuilder.Extensions;
-using EFCore.IncludeBuilder.Tests.Common;
+﻿using Ainoraz.EFCore.IncludeBuilder.Common;
+using Ainoraz.EFCore.IncludeBuilder.Extensions;
+using BenchmarkDotNet.Attributes;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace EFCore.IncludeBuilder.Benchmarks;
+namespace Ainoraz.EFCore.IncludeBuilder.Benchmarks;
 
 [MemoryDiagnoser]
 public class MultiIncludeVsUseIncludeBuilder

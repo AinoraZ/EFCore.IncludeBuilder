@@ -1,7 +1,6 @@
-using EFCore.IncludeBuilder.Extensions;
-using EFCore.IncludeBuilder.Tests;
-using EFCore.IncludeBuilder.Tests.Common;
-using EFCore.IncludeBuilder.Tests.Common.Models;
+using Ainoraz.EFCore.IncludeBuilder.Common;
+using Ainoraz.EFCore.IncludeBuilder.Common.Models;
+using Ainoraz.EFCore.IncludeBuilder.Extensions;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace EFCore.IncludeBuilder.Tests;
+namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 
 public class SimpleUseIncludeBuilderTests : IDisposable
 {
@@ -37,7 +36,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
         var expectedQuery = testDbContext.Users
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -69,7 +68,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Include(u => u.OwnedBlog)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -84,7 +83,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
         var expectedQuery = testDbContext.Users
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -102,7 +101,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -120,7 +119,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -137,7 +136,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -156,7 +155,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                 .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -178,7 +177,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                 .ThenInclude(b => b.Followers)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -198,7 +197,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                 .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -238,7 +237,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                     .ThenInclude(f => f.OwnedBlog)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -277,7 +276,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                     .ThenInclude(f => f.OwnedBlog)
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -293,7 +292,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Include(u => u.Posts)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -321,7 +320,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                         .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -347,7 +346,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                         .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -366,7 +365,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
                 .ThenInclude(p => p.Readers)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -384,6 +383,6 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Include(u => u.OwnedBlog.Posts)
             .ToQueryString();
 
-        actualQuery.Should().NotBe(expectedQuery);
+        actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
 }

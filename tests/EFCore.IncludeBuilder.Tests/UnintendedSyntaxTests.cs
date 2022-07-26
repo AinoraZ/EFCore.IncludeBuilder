@@ -1,12 +1,12 @@
-﻿using EFCore.IncludeBuilder.Extensions;
-using EFCore.IncludeBuilder.Tests.Common;
+﻿using Ainoraz.EFCore.IncludeBuilder.Common;
+using Ainoraz.EFCore.IncludeBuilder.Extensions;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace EFCore.IncludeBuilder.Tests;
+namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 
 public class UnintendedSyntaxTests : IDisposable
 {
@@ -31,14 +31,16 @@ public class UnintendedSyntaxTests : IDisposable
             .Include(u => u.OwnedBlog)
             .Build()
             .UseIncludeBuilder()
+            .Include(u => u.Posts)
             .Build()
             .ToQueryString();
 
         var expectedQuery = testDbContext.Users
             .Include(u => u.OwnedBlog)
+            .Include(u => u.Posts)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -68,7 +70,7 @@ public class UnintendedSyntaxTests : IDisposable
                 .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -95,10 +97,10 @@ public class UnintendedSyntaxTests : IDisposable
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Followers)
             .Include(u => u.OwnedBlog)
-                .ThenInclude(b => b.Posts)
+                .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -130,7 +132,7 @@ public class UnintendedSyntaxTests : IDisposable
                 .ThenInclude(b => b.Posts)
             .ToQueryString();
 
-        actualQuery.Should().Be(expectedQuery);
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
     }
 
     [Fact]
@@ -139,7 +141,6 @@ public class UnintendedSyntaxTests : IDisposable
         Action action = () => testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
-                .Include(b => b.Posts)
                 .Include(b => b.Author)
             )
             .Build()

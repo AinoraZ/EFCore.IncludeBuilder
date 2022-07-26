@@ -10,9 +10,9 @@
       "request": "launch",
       "preLaunchTask": "build release",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/tests/EFCore.IncludeBuilder.Benchmarks/bin/Release/net6.0/EfCore.IncludeBuilder.Benchmarks.dll",
+      "program": "${workspaceFolder}/tests/Ainoraz.EFCore.IncludeBuilder.Benchmarks/bin/Release/net6.0/Ainoraz.EFCore.IncludeBuilder.Benchmarks.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/tests/EFCore.IncludeBuilder.Benchmarks",
+      "cwd": "${workspaceFolder}/tests/Ainoraz.EFCore.IncludeBuilder.Benchmarks",
       // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
       "console": "internalConsole",
       "stopAtEntry": false

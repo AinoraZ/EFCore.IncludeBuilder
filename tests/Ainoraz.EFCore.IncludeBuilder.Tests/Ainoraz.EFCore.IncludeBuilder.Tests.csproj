@@ -1,8 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<RootNamespace>Ainoraz.EFCore.IncludeBuilder.Tests</RootNamespace>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.1.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
@@ -18,8 +14,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\EFCore.IncludeBuilder\EFCore.IncludeBuilder.csproj" />
-		<ProjectReference Include="..\EFCore.IncludeBuilder.Tests.Common\EFCore.IncludeBuilder.Tests.Common.csproj" />
+		<ProjectReference Include="..\..\src\Ainoraz.EFCore.IncludeBuilder\Ainoraz.EFCore.IncludeBuilder.csproj" />
+		<ProjectReference Include="..\Ainoraz.EFCore.IncludeBuilder.Tests.Common\Ainoraz.EFCore.IncludeBuilder.Tests.Common.csproj" />
 	</ItemGroup>
 
 </Project>

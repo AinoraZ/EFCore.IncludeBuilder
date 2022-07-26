@@ -1,8 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<RootNamespace>Ainoraz.EFCore.IncludeBuilder.Tests.Common</RootNamespace>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="AutoFixture.AutoMoq" Version="4.17.0" />
 		<PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />

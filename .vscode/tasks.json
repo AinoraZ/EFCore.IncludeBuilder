@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/tests/EFCore.IncludeBuilder.Benchmarks/EFCore.IncludeBuilder.Benchmarks.csproj",
+        "${workspaceFolder}/tests/Ainoraz.EFCore.IncludeBuilder.Benchmarks/Ainoraz.EFCore.IncludeBuilder.Benchmarks.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
           "build",
-          "${workspaceFolder}/tests/EFCore.IncludeBuilder.Benchmarks/EFCore.IncludeBuilder.Benchmarks.csproj",
+          "${workspaceFolder}/tests/Ainoraz.EFCore.IncludeBuilder.Benchmarks/Ainoraz.EFCore.IncludeBuilder.Benchmarks.csproj",
           "-c",
           "Release"
       ],
@@ -31,7 +31,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/tests/EFCore.IncludeBuilder.Benchmarks/EFCore.IncludeBuilder.Benchmarks.csproj",
+        "${workspaceFolder}/tests/Ainoraz.EFCore.IncludeBuilder.Benchmarks/Ainoraz.EFCore.IncludeBuilder.Benchmarks.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -44,7 +44,7 @@
       "args": [
         "watch",
         "run",
-        "${workspaceFolder}/tests/EFCore.IncludeBuilder.Benchmarks/EFCore.IncludeBuilder.Benchmarks.csproj",
+        "${workspaceFolder}/tests/Ainoraz.EFCore.IncludeBuilder.Benchmarks/Ainoraz.EFCore.IncludeBuilder.Benchmarks.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],

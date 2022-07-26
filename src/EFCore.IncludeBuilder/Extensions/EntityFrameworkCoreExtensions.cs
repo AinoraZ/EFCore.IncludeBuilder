@@ -1,8 +1,8 @@
-﻿using EFCore.IncludeBuilder.Builders;
-using EFCore.IncludeBuilder.Builders.Interfaces;
+﻿using Ainoraz.EFCore.IncludeBuilder.Builders;
+using Ainoraz.EFCore.IncludeBuilder.Builders.Interfaces;
 using System.Linq;
 
-namespace EFCore.IncludeBuilder.Extensions;
+namespace Ainoraz.EFCore.IncludeBuilder.Extensions;
 
 public static class EntityFrameworkCoreExtensions
 {

@@ -1,13 +1,16 @@
-﻿using EFCore.IncludeBuilder.Appliers;
-using EFCore.IncludeBuilder.Builders.Interfaces;
+﻿using Ainoraz.EFCore.IncludeBuilder.Appliers;
+using Ainoraz.EFCore.IncludeBuilder.Builders.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace EFCore.IncludeBuilder.Builders;
+namespace Ainoraz.EFCore.IncludeBuilder.Builders;
 
-internal class RootIncludeBuilder<TBase> : BaseIncludeBuilder<TBase>, IRootIncludeBuilder<TBase> where TBase : class
+internal class RootIncludeBuilder<TBase> :
+    BaseIncludeBuilder<TBase>,
+    IRootIncludeBuilder<TBase>
+    where TBase : class
 {
     private readonly IQueryable<TBase> source;
 
@@ -60,9 +63,9 @@ internal class RootIncludeBuilder<TBase> : BaseIncludeBuilder<TBase>, IRootInclu
     private static IEnumerable<BaseIncludeBuilder<TBase>> GetAncestorChain(BaseIncludeBuilder<TBase> node)
     {
         var chain = new List<BaseIncludeBuilder<TBase>>();
-        BaseIncludeBuilder<TBase>? currentNode = node;
 
-        while (currentNode != null)
+        BaseIncludeBuilder<TBase>? currentNode = node;
+        while (currentNode is not null)
         {
             chain.Add(currentNode);
             currentNode = currentNode.ParentBuilder;

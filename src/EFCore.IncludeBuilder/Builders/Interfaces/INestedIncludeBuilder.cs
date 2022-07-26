@@ -1,5 +1,7 @@
-﻿namespace EFCore.IncludeBuilder.Builders.Interfaces;
+﻿namespace Ainoraz.EFCore.IncludeBuilder.Builders.Interfaces;
 
-public interface INestedIncludeBuilder<TBase, TEntity> : IIncludeBuilder<TBase, TEntity, INestedIncludeBuilder<TBase, TEntity>> where TBase : class
+public interface INestedIncludeBuilder<TBase, TEntity> :
+    IIncludeBuilder<TBase, TEntity, INestedIncludeBuilder<TBase, TEntity>>
+    where TBase : class
 {
 }

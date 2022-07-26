@@ -1,17 +1,20 @@
-﻿using EFCore.IncludeBuilder.Appliers;
-using EFCore.IncludeBuilder.Builders.Interfaces;
+﻿using Ainoraz.EFCore.IncludeBuilder.Appliers;
+using Ainoraz.EFCore.IncludeBuilder.Builders.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace EFCore.IncludeBuilder.Builders;
+namespace Ainoraz.EFCore.IncludeBuilder.Builders;
 
-internal class EnumerableThenIncludeBuilder<TBase, TPreviousEntity, TEntity> : BaseIncludeBuilder<TBase>, INestedIncludeBuilder<TBase, TEntity> where TBase : class
+internal class EnumerableThenIncludeBuilder<TBase, TPreviousEntity, TEntity> :
+    BaseIncludeBuilder<TBase>,
+    INestedIncludeBuilder<TBase, TEntity>
+    where TBase : class
 {
-    private readonly BaseIncludeApplier<TBase, TPreviousEntity, IEnumerable<TEntity>> currentLevelIncludeApplier;
+    private readonly IIncludeApplier<TBase> currentLevelIncludeApplier;
 
-    internal EnumerableThenIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder, BaseIncludeApplier<TBase, TPreviousEntity, IEnumerable<TEntity>> applier) : base(parentBuilder)
+    internal EnumerableThenIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder, IIncludeApplier<TBase> applier) : base(parentBuilder)
     {
         currentLevelIncludeApplier = applier;
     }
@@ -42,5 +45,6 @@ internal class EnumerableThenIncludeBuilder<TBase, TPreviousEntity, TEntity> : B
         return this;
     }
 
-    internal override IQueryable<TBase> Apply(IQueryable<TBase> query) => currentLevelIncludeApplier.Apply(query);
+    internal override IQueryable<TBase> Apply(IQueryable<TBase> query) =>
+        currentLevelIncludeApplier.Apply(query);
 }

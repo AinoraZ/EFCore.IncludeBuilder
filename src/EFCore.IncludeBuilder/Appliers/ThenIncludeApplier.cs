@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using EFCore.IncludeBuilder.Exceptions;
+using Ainoraz.EFCore.IncludeBuilder.Exceptions;
 
-namespace EFCore.IncludeBuilder.Appliers;
+namespace Ainoraz.EFCore.IncludeBuilder.Appliers;
 
-internal class ThenIncludeApplier<TBase, TEntity, TProperty> : BaseIncludeApplier<TBase, TEntity, TProperty> where TBase : class
+internal class ThenIncludeApplier<TBase, TEntity, TProperty> :
+    IIncludeApplier<TBase>
+    where TBase : class
 {
     private readonly Expression<Func<TEntity, TProperty>> navigationPropertyPath;
 
@@ -17,7 +19,7 @@ internal class ThenIncludeApplier<TBase, TEntity, TProperty> : BaseIncludeApplie
         this.navigationPropertyPath = navigationPropertyPath;
     }
 
-    internal override IQueryable<TBase> Apply(IQueryable<TBase> queryable)
+    public IQueryable<TBase> Apply(IQueryable<TBase> queryable)
     {
         if (queryable is IIncludableQueryable<TBase, IEnumerable<TEntity>> enumerableIncludableQueryable)
             return enumerableIncludableQueryable.ThenInclude(navigationPropertyPath);

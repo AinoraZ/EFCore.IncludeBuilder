@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Ainoraz.EFCore.IncludeBuilder\Ainoraz.EFCore.IncludeBuilder.csproj" />
+		<ProjectReference Include="..\Ainoraz.EFCore.IncludeBuilder.Tests.Common\Ainoraz.EFCore.IncludeBuilder.Tests.Common.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -4,6 +4,7 @@
         "Buildable",
         "Diagnoser",
         "Includable",
+        "prenum", // prerelease number
         "Xunit"
     ]
 }

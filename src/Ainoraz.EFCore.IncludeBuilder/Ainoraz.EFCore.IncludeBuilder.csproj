@@ -5,6 +5,19 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<PackageId>Ainoraz.EFCore.IncludeBuilder</PackageId>
+		<Authors>ainoraz</Authors>
+		<Product>$(PackageId)</Product>
+		<PackageProjectUrl>https://github.com/AinoraZ/EFCore.IncludeBuilder</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/AinoraZ/EFCore.IncludeBuilder.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>efcore;entity;framework;core;include;builder;improved;syntax;</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<Description>Extension library for Entity Framework Core that makes loading navigation properties easier.</Description>
+	</PropertyGroup>
+
 	<ItemGroup Label="Package References">
 		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" Version="1.1.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(EFCoreVersion)" />

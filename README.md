@@ -1,6 +1,6 @@
 # EFCore.IncludeBuilder
 
-Extension library for Entity Framework Core that tries to improve upon the ```Include(...).ThenInclude(...)``` syntax to better support the following scenarios:
+Extension library for Entity Framework Core that tries to improve upon the ```Include(...).ThenInclude(...)``` syntax in order to better support the following scenarios:
 
 - Loading multiple entities on the same level (siblings).
 - Writing extension methods to include a whole set of entities at once.
@@ -9,7 +9,7 @@ Extension library for Entity Framework Core that tries to improve upon the ```In
 
 EFCore.IncludeBuilder allows you to load sibling entities without going up the whole include structure.
 
-UseIncludeBuilder() syntax:
+```UseIncludeBuilder()``` syntax:
 
 ```csharp
 dbContext.Users
@@ -26,7 +26,7 @@ dbContext.Users
     .Build()
 ```
 
-Include(...).ThenInclude(...) syntax:
+```Include(...).ThenInclude(...)``` syntax:
 
 ```csharp
 dbContext.Users
@@ -86,7 +86,7 @@ dbContext.Users
 
 ## How It Works
 
-EFCore.IncludeBuilder converts the includes You give it back to ```Include(...).ThenInclude(...)``` calls, so it *should* support all the same providers and functionality as the original.
+EFCore.IncludeBuilder converts the includes you give it back to ```Include(...).ThenInclude(...)``` calls, so it *should* support all the same providers and functionality as the original.
 
 ## Performance
 
@@ -104,10 +104,3 @@ For larger queries that duplicate the same filters, it can even be the faster op
 |        UseIncludeBuilder | 164.3 μs | 0.39 μs | 0.36 μs |  1.08 | 1.7090 | 0.4883 |     35 KB |
 
 You can find the most up to date benchmarks in the build artifacts for each build.
-
-## TODO
-
-This project is still in progress, so the public interfaces are subject to change.
-
-- [X] Propose adoption to efcore (seems to be in consideration [#23110](https://github.com/dotnet/efcore/issues/23110)).
-- [ ] Publish package as third-party library for the meanwhile.

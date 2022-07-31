@@ -1,0 +1,55 @@
+on:
+  release:
+    types: [published]
+
+env:
+  NUGET_FEED: https://api.nuget.org/v3/index.json
+  # Only tests subset of versioning for this repository: major.minor.patch and major.minor.patch-prerelease.prenum
+  RELEASE_REGEX: ^([0-9]+)\.([0-9]+)\.([0-9]+)(-([a-z]+)\.([0-9]+))?$
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        dotnet-version: ["6.0.x"]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup dotnet ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    - name: Set VERSION variable from tag
+      id: tag_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
+    - name: Check version validity
+      run: |
+        if [[ "${VERSION}" =~ ${RELEASE_REGEX} ]]; then
+          echo "Release version: ${VERSION}"
+          exit 0
+        else
+          echo "Invalid version: ${VERSION}"
+          exit 1
+        fi
+      env:
+        VERSION: ${{ steps.tag_version.outputs.VERSION }}
+    - name: Build Release
+      run: dotnet build --configuration Release /p:Version="${VERSION}"
+      env:
+        VERSION: ${{ steps.tag_version.outputs.VERSION }}
+    - name: Test Release
+      run: dotnet test --configuration Release --no-build
+    - name: Pack
+      run: dotnet pack --configuration Release /p:Version="${VERSION}" --include-symbols --no-build --output packed/
+      env:
+        VERSION: ${{ steps.tag_version.outputs.VERSION }}
+    - name: Push
+      run: dotnet nuget push packed/*.nupkg --source ${NUGET_FEED} --api-key ${NUGET_KEY} --skip-duplicate
+      env:
+        NUGET_KEY: ${{ secrets.NUGET_KEY }}
+

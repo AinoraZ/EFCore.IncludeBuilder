@@ -9,7 +9,7 @@ Extension library for Entity Framework Core that tries to improve upon the ```In
 
 EFCore.IncludeBuilder allows you to load sibling entities without going up the whole include structure.
 
-```UseIncludeBuilder()``` syntax:
+### ```UseIncludeBuilder()``` syntax
 
 ```csharp
 dbContext.Users
@@ -26,7 +26,9 @@ dbContext.Users
     .Build()
 ```
 
-```Include(...).ThenInclude(...)``` syntax:
+> ⚠️Caution: Autocomplete after List/Collection Includes is currently broken for VS and VSCode due to a bug in Roslyn. This is tracked by issue [#16](https://github.com/AinoraZ/EFCore.IncludeBuilder/issues/16). Regardless of autocomplete, **the code will still fully compile and work**.
+
+### ```Include(...).ThenInclude(...)``` syntax
 
 ```csharp
 dbContext.Users
@@ -48,7 +50,7 @@ dbContext.Users
 
 Since IncludeBuilder uses the same ```Include(...)``` method signature for all levels, it is possible to write extension methods without depending on whether the includes are root level ```Include(...)``` on ```IQueryable``` or nested ```ThenInclude(...)``` on ```IIncludableQueryable```.
 
-Extension method:
+### Extension method
 
 ```csharp
 public static TBuilder IncludeBlogChildren<TBase, TBuilder>(this IIncludeBuilder<TBase, Blog, TBuilder> blogBuilder)
@@ -63,7 +65,7 @@ public static TBuilder IncludeBlogChildren<TBase, TBuilder>(this IIncludeBuilder
     }
 ```
 
-Root level extension usage:
+### Root level extension usage
 
 ```csharp
 dbContext.Blogs
@@ -72,7 +74,7 @@ dbContext.Blogs
     .Build();
 ```
 
-Nested level extension usage:
+### Nested level extension usage
 
 ```csharp
 dbContext.Users
@@ -86,7 +88,7 @@ dbContext.Users
 
 ## How It Works
 
-EFCore.IncludeBuilder converts the includes you give it back to ```Include(...).ThenInclude(...)``` calls, so it *should* support all the same providers and functionality as the original.
+EFCore.IncludeBuilder converts the includes you give it back to ```Include(...).ThenInclude(...)``` calls, so it **_should_** support all the same providers and functionality as the original.
 
 ## Performance
 

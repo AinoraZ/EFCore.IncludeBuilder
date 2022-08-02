@@ -385,4 +385,26 @@ public class SimpleUseIncludeBuilderTests : IDisposable
 
         actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
     }
+
+    [Fact]
+    public void CollectionIncludeChain_ShouldSucceed()
+    {
+        var actualQuery = testDbContext.Blogs
+            .UseIncludeBuilder()
+            .Include(b => b.Posts, builder => builder
+                .Include(p => p.Readers, builder => builder
+                    .Include(r => r.Posts)
+                )
+            )
+            .Build()
+            .ToQueryString();
+
+        var expectedQuery = testDbContext.Blogs
+            .Include(b => b.Posts)
+                .ThenInclude(p => p.Readers)
+                    .ThenInclude(r => r.Posts)
+            .ToQueryString();
+
+        actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
+    }
 }

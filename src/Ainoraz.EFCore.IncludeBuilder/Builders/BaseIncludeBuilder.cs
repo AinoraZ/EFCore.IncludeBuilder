@@ -18,7 +18,7 @@ internal abstract class BaseIncludeBuilder<TBase> where TBase : class
     internal IEnumerable<BaseIncludeBuilder<TBase>> GetLeafNodes()
     {
         if (!ChildBuilders.Any())
-            return new List<BaseIncludeBuilder<TBase>> { this };
+            return new[] { this };
 
         return ChildBuilders.SelectMany(i => i.GetLeafNodes());
     }

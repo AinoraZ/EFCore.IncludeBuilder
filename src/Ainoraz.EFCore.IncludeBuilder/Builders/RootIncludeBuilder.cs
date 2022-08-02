@@ -19,30 +19,20 @@ internal class RootIncludeBuilder<TBase> :
         this.source = source;
     }
 
-    public IRootIncludeBuilder<TBase> Include<TNextProperty>(
-        Expression<Func<TBase, TNextProperty>> navigationPropertyPath,
-        Action<INestedIncludeBuilder<TBase, TNextProperty>>? builder = null)
+    public IRootIncludeBuilder<TBase> Include<TNext>(
+        Expression<Func<TBase, TNext>> navigationPropertyPath,
+        Action<INestedIncludeBuilder<TBase, TNext>>? builder = null)
     {
-        var includeApplier = new IncludeApplier<TBase, TNextProperty>(navigationPropertyPath);
-        var childBuilder = new ThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
-        builder?.Invoke(childBuilder);
-
-        ChildBuilders.Add(childBuilder);
-
-        return this;
+        var includeApplier = new IncludeApplier<TBase, TNext>(navigationPropertyPath);
+        return IncludeWithApplier(includeApplier, builder);
     }
 
-    public IRootIncludeBuilder<TBase> Include<TNextProperty>(
-        Expression<Func<TBase, IEnumerable<TNextProperty>>> navigationPropertyPath,
-        Action<INestedIncludeBuilder<TBase, TNextProperty>>? builder = null)
+    public IRootIncludeBuilder<TBase> Include<TNext>(
+        Expression<Func<TBase, IEnumerable<TNext>>> navigationPropertyPath,
+        Action<INestedIncludeBuilder<TBase, TNext>>? builder = null)
     {
-        var includeApplier = new IncludeApplier<TBase, IEnumerable<TNextProperty>>(navigationPropertyPath);
-        var childBuilder = new EnumerableThenIncludeBuilder<TBase, TBase, TNextProperty>(this, includeApplier);
-        builder?.Invoke(childBuilder);
-
-        ChildBuilders.Add(childBuilder);
-
-        return this;
+        var includeApplier = new IncludeApplier<TBase, IEnumerable<TNext>>(navigationPropertyPath);
+        return IncludeWithApplier(includeApplier, builder);
     }
 
     public IQueryable<TBase> Build()
@@ -50,28 +40,36 @@ internal class RootIncludeBuilder<TBase> :
         IQueryable<TBase> builtSource = source;
         foreach (BaseIncludeBuilder<TBase> leafBuilder in GetLeafNodes())
         {
-            IEnumerable<BaseIncludeBuilder<TBase>> parentChain = GetAncestorChain(leafBuilder);
-            foreach (BaseIncludeBuilder<TBase> node in parentChain)
+            IEnumerable<BaseIncludeBuilder<TBase>> chainToLeaf = GetAncestorChain(leafBuilder).Reverse();
+            foreach (BaseIncludeBuilder<TBase> builderNode in chainToLeaf)
             {
-                builtSource = node.Apply(builtSource);
+                builtSource = builderNode.Apply(builtSource);
             }
         }
 
         return builtSource;
     }
 
+    private IRootIncludeBuilder<TBase> IncludeWithApplier<TNext>(
+        IIncludeApplier<TBase> includeApplier,
+        Action<INestedIncludeBuilder<TBase, TNext>>? builder = null)
+    {
+        var childBuilder = new NestedIncludeBuilder<TBase, TNext>(this, includeApplier);
+        builder?.Invoke(childBuilder);
+
+        ChildBuilders.Add(childBuilder);
+
+        return this;
+    }
+
     private static IEnumerable<BaseIncludeBuilder<TBase>> GetAncestorChain(BaseIncludeBuilder<TBase> node)
     {
-        var chain = new List<BaseIncludeBuilder<TBase>>();
-
         BaseIncludeBuilder<TBase>? currentNode = node;
         while (currentNode is not null)
         {
-            chain.Add(currentNode);
+            yield return currentNode;
             currentNode = currentNode.ParentBuilder;
         }
-
-        return chain.AsEnumerable().Reverse();
     }
 
     internal override IQueryable<TBase> Apply(IQueryable<TBase> query) => query;

@@ -9,8 +9,7 @@ using Ainoraz.EFCore.IncludeBuilder.Exceptions;
 namespace Ainoraz.EFCore.IncludeBuilder.Appliers;
 
 internal class ThenIncludeApplier<TBase, TEntity, TProperty> :
-    IIncludeApplier<TBase>
-    where TBase : class
+    IIncludeApplier<TBase> where TBase : class
 {
     private readonly Expression<Func<TEntity, TProperty>> navigationPropertyPath;
 

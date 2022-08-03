@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<EFCoreVersion>6.0.0</EFCoreVersion>
+		<EFCoreVersion>6.0.7</EFCoreVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

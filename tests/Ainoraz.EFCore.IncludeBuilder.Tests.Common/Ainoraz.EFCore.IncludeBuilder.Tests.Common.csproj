@@ -2,6 +2,6 @@
 	<ItemGroup>
 		<PackageReference Include="AutoFixture.AutoMoq" Version="4.17.0" />
 		<PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
-		<PackageReference Include="Castle.Core" Version="5.0.0" />
+		<PackageReference Include="Castle.Core" Version="5.1.0" />
 	</ItemGroup>
 </Project>

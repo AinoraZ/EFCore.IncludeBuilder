@@ -7,7 +7,7 @@
 
 	<PropertyGroup>
 		<PackageId>Ainoraz.EFCore.IncludeBuilder</PackageId>
-		<Authors>ainoraz</Authors>
+		<Authors>Ainoras Žukauskas</Authors>
 		<Product>$(PackageId)</Product>
 		<PackageProjectUrl>https://github.com/AinoraZ/EFCore.IncludeBuilder</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/AinoraZ/EFCore.IncludeBuilder.git</RepositoryUrl>

@@ -10,6 +10,6 @@ public class Post
     public Blog Blog { get; set; } = null!;
     public Guid AuthorId { get; set; }
     public User Author { get; set; } = null!;
-    public IEnumerable<User> Readers { get; set; } = new List<User>();
+    public List<User> Readers { get; set; } = new List<User>();
     public DateTime PostDate { get; set; }
 }

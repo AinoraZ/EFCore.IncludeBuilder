@@ -23,4 +23,8 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" Version="1.1.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(EFCoreVersion)" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="$(SolutionDir)/README.md" Pack="true" PackagePath="/"/>
+	</ItemGroup>
 </Project>

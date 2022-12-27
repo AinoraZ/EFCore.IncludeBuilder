@@ -1,6 +1,6 @@
 # EFCore.IncludeBuilder
 
-Extension library for Entity Framework Core that tries to improve upon the ```Include(...).ThenInclude(...)``` syntax in order to better support the following scenarios:
+Extension library for Entity Framework Core (6, 7) that tries to improve upon the ```Include(...).ThenInclude(...)``` syntax in order to better support the following scenarios:
 
 - Loading multiple entities on the same level (siblings).
 - Writing extension methods to include a whole set of entities at once.

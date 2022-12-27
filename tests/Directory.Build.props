@@ -3,11 +3,11 @@
 
 	<PropertyGroup>
 		<IsPackable>false</IsPackable>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<EFCoreVersion>6.0.7</EFCoreVersion>
+		<EFCoreVersion>7.0.1</EFCoreVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -1,5 +1,8 @@
 # EFCore.IncludeBuilder
 
+[![NuGet](https://img.shields.io/nuget/v/Ainoraz.EFCore.IncludeBuilder)](https://www.nuget.org/packages/Ainoraz.EFCore.IncludeBuilder)
+[![Build](https://github.com/Ainoraz/EFCore.IncludeBuilder/actions/workflows/build-ci.yml/badge.svg)](https://github.com/AinoraZ/EFCore.IncludeBuilder/actions/workflows/build-ci.yml)
+
 Extension library for Entity Framework Core (6, 7) that tries to improve upon the ```Include(...).ThenInclude(...)``` syntax in order to better support the following scenarios:
 
 - Loading multiple entities on the same level (siblings).

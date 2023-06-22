@@ -4,10 +4,5 @@
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<EFCoreVersion>6.0.0</EFCoreVersion>
 	</PropertyGroup>
 </Project>

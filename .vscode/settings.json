@@ -6,5 +6,6 @@
         "Includable",
         "prenum", // prerelease number
         "Xunit"
-    ]
+    ],
+    "dotnet.defaultSolution": "Ainoraz.EFCore.IncludeBuilder.sln"
 }

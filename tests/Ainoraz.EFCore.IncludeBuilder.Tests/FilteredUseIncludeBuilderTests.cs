@@ -138,7 +138,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
-                .Include(b => b.Followers.Where(b => b.ReadHistory.Count() > 5))
+                .Include(b => b.Followers.Where(b => b.ReadHistory.Count > 5))
             )
             .Build()
             .ToQueryString();
@@ -147,7 +147,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Include(u => u.OwnedBlog)
-                .ThenInclude(b => b.Followers.Where(b => b.ReadHistory.Count() > 5))
+                .ThenInclude(b => b.Followers.Where(b => b.ReadHistory.Count > 5))
             .ToQueryString();
 
         actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();

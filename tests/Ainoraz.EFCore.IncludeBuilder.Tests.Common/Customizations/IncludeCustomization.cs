@@ -1,6 +1,5 @@
 using System.Linq;
 using AutoFixture;
-using AutoFixture.AutoMoq;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Tests.Common.Customizations;
 
@@ -14,7 +13,5 @@ public class IncludeCustomization : ICustomization
             .ForEach(b => fixture.Behaviors.Remove(b));
 
         fixture.Behaviors.Add(new OmitOnRecursionBehavior(recursionDepth: 1));
-
-        fixture.Customize(new AutoMoqCustomization());
     }
 }

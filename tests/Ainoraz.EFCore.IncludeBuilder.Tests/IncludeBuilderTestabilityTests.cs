@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using MockQueryable.NSubstitute;
 using Xunit;
 using Ainoraz.EFCore.IncludeBuilder.Tests.Common.Customizations;
 using Ainoraz.EFCore.IncludeBuilder.Extensions;
@@ -32,9 +33,11 @@ public class IncludeBuilderTestabilityTests
 
     [Theory]
     [IncludeAutoData]
-    public void Queryable_ShouldNotThrow(IQueryable<User> users)
+    public void MockQueryable_ShouldNotThrow(IEnumerable<User> users)
     {
-        Action action = () => users
+        IQueryable<User> usersMockQueryable = users.BuildMock();
+
+        Action action = () => usersMockQueryable
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts)

@@ -3,12 +3,12 @@
 
 	<PropertyGroup>
 		<IsPackable>false</IsPackable>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- Testing against latest EntityFrameworkCore for breaking changes. -->
-		<PackageReference Include="Microsoft.EntityFrameworkCore" VersionOverride="7.0.*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" VersionOverride="7.0.*" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" VersionOverride="8.0.*" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" VersionOverride="8.0.*" />
 	</ItemGroup>
 </Project>

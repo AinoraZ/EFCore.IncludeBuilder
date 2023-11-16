@@ -26,10 +26,10 @@
 
 	<ItemGroup Label="Package References">
 		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="$(SolutionDir)/README.md" Pack="true" PackagePath="/"/>
+		<None Include="$(SolutionDir)/README.md" Pack="true" PackagePath="/" />
 	</ItemGroup>
 </Project>

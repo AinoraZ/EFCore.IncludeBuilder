@@ -97,17 +97,18 @@ EFCore.IncludeBuilder converts the includes you give it back to ```Include(...).
 
 ```UseIncludeBuilder``` adds very little overhead both time and memory wise:
 
-|            Method |     Mean |    Error |   StdDev | Ratio |  Gen 0 |  Gen 1 | Allocated |
-|------------------ |---------:|---------:|---------:|------:|-------:|-------:|----------:|
-|           Include | 66.42 μs | 0.291 μs | 0.272 μs |  1.00 | 0.7324 | 0.2441 |     14 KB |
-| UseIncludeBuilder | 69.22 μs | 0.243 μs | 0.227 μs |  1.04 | 0.7324 | 0.2441 |     15 KB |
+|            Method |     Mean |    Error |   StdDev | Ratio | RatioSD | Allocated | Alloc Ratio |
+|------------------ |---------:|---------:|---------:|------:|--------:|----------:|------------:|
+|           Include | 30.89 μs | 0.572 μs | 0.535 μs |  1.00 |    0.00 |  10.53 KB |        1.00 |
+| UseIncludeBuilder | 33.50 μs | 0.163 μs | 0.136 μs |  1.08 |    0.02 |  11.91 KB |        1.13 |
+
 
 For larger queries that duplicate the same filters, it can even be the faster option:
 
-|                   Method |     Mean |   Error |  StdDev | Ratio |  Gen 0 |  Gen 1 | Allocated |
-|------------------------- |---------:|--------:|--------:|------:|-------:|-------:|----------:|
-|                  Include | 152.0 μs | 0.22 μs | 0.20 μs |  1.00 | 1.7090 | 0.4883 |     34 KB |
-| Include_DuplicatedFilter | 186.7 μs | 0.70 μs | 0.65 μs |  1.23 | 2.1973 | 0.4883 |     41 KB |
-|        UseIncludeBuilder | 164.3 μs | 0.39 μs | 0.36 μs |  1.08 | 1.7090 | 0.4883 |     35 KB |
+|                   Method |     Mean |    Error |   StdDev | Ratio | Allocated | Alloc Ratio |
+|------------------------- |---------:|---------:|---------:|------:|----------:|------------:|
+|                  Include | 69.77 μs | 0.140 μs | 0.109 μs |  1.00 |   23.8 KB |        1.00 |
+| Include_DuplicatedFilter | 87.86 μs | 0.177 μs | 0.148 μs |  1.26 |  29.93 KB |        1.26 |
+|        UseIncludeBuilder | 78.62 μs | 0.213 μs | 0.167 μs |  1.13 |  25.34 KB |        1.07 |
 
 You can find the most up to date benchmarks in the build artifacts for each build.

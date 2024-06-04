@@ -8,15 +8,14 @@ using System.Linq.Expressions;
 namespace Ainoraz.EFCore.IncludeBuilder.Builders;
 
 internal class RootIncludeBuilder<TBase> :
-    BaseIncludeBuilder<TBase>,
-    IRootIncludeBuilder<TBase>
+    BaseIncludeBuilder<TBase>, IRootIncludeBuilder<TBase>
     where TBase : class
 {
-    private readonly IQueryable<TBase> source;
+    private readonly IQueryable<TBase> _source;
 
     internal RootIncludeBuilder(IQueryable<TBase> source) : base(null)
     {
-        this.source = source;
+        _source = source;
     }
 
     public IRootIncludeBuilder<TBase> Include<TNext>(
@@ -37,7 +36,7 @@ internal class RootIncludeBuilder<TBase> :
 
     public IQueryable<TBase> Build()
     {
-        IQueryable<TBase> builtSource = source;
+        IQueryable<TBase> builtSource = _source;
         foreach (BaseIncludeBuilder<TBase> leafBuilder in GetLeafNodes())
         {
             IEnumerable<BaseIncludeBuilder<TBase>> chainToLeaf = GetAncestorChain(leafBuilder).Reverse();

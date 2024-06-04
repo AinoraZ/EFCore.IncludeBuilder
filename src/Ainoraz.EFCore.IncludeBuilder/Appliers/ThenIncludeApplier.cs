@@ -8,24 +8,25 @@ using Ainoraz.EFCore.IncludeBuilder.Exceptions;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Appliers;
 
-internal class ThenIncludeApplier<TBase, TEntity, TProperty> :
-    IIncludeApplier<TBase> where TBase : class
+internal class ThenIncludeApplier<TBase, TEntity, TProperty> : IIncludeApplier<TBase> where TBase : class
 {
-    private readonly Expression<Func<TEntity, TProperty>> navigationPropertyPath;
+    private readonly Expression<Func<TEntity, TProperty>> _navigationPropertyPath;
 
     internal ThenIncludeApplier(Expression<Func<TEntity, TProperty>> navigationPropertyPath)
     {
-        this.navigationPropertyPath = navigationPropertyPath;
+        _navigationPropertyPath = navigationPropertyPath;
     }
 
     public IQueryable<TBase> Apply(IQueryable<TBase> queryable)
     {
-        if (queryable is IIncludableQueryable<TBase, IEnumerable<TEntity>> enumerableIncludableQueryable)
-            return enumerableIncludableQueryable.ThenInclude(navigationPropertyPath);
-
-        else if (queryable is IIncludableQueryable<TBase, TEntity> includableQueryable)
-            return includableQueryable.ThenInclude(navigationPropertyPath);
-
-        throw new IncludeConversionFailedException($"Found unsupported IQueryable type that cannot have .ThenInclude applied. Found type: {queryable.GetType()}.");
+        return queryable switch
+        {
+            IIncludableQueryable<TBase, IEnumerable<TEntity>> enumerableQueryable =>
+                enumerableQueryable.ThenInclude(_navigationPropertyPath),
+            IIncludableQueryable<TBase, TEntity> singleQueryable => 
+                singleQueryable.ThenInclude(_navigationPropertyPath),
+            _ => throw new IncludeConversionFailedException(
+                $"Found unsupported IQueryable type that cannot have .ThenInclude applied. Found type: {queryable.GetType()}.")
+        };
     }
 }

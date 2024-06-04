@@ -7,19 +7,19 @@ using System.Linq.Expressions;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Builders;
 
-internal class NestedIncludeBuilder<TBase, TCurrent> :
-    BaseIncludeBuilder<TBase>,
-    INestedIncludeBuilder<TBase, TCurrent>
+internal class NestedIncludeBuilder<TBase, TCurrent> : 
+    BaseIncludeBuilder<TBase>, INestedIncludeBuilder<TBase, TCurrent>
     where TBase : class
 {
     /// <summary>
     /// Include to apply in order to get from previous level to current one.
     /// </summary>
-    private readonly IIncludeApplier<TBase> currentLevelIncludeApplier;
+    private readonly IIncludeApplier<TBase> _currentLevelIncludeApplier;
 
-    internal NestedIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder, IIncludeApplier<TBase> applier) : base(parentBuilder)
+    internal NestedIncludeBuilder(BaseIncludeBuilder<TBase> parentBuilder, IIncludeApplier<TBase> applier) 
+        : base(parentBuilder)
     {
-        currentLevelIncludeApplier = applier;
+        _currentLevelIncludeApplier = applier;
     }
 
     public INestedIncludeBuilder<TBase, TCurrent> Include<TNext>(
@@ -51,5 +51,5 @@ internal class NestedIncludeBuilder<TBase, TCurrent> :
     }
 
     internal override IQueryable<TBase> Apply(IQueryable<TBase> query) =>
-        currentLevelIncludeApplier.Apply(query);
+        _currentLevelIncludeApplier.Apply(query);
 }

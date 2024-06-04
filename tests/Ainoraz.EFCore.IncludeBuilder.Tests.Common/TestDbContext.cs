@@ -5,19 +5,22 @@ using System.Data.Common;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Tests.Common;
 
-public class TestDbContext : DbContext
+public class TestDbContext() : DbContext(BuildOptions())
 {
-    public TestDbContext() : base(
-        new DbContextOptionsBuilder<TestDbContext>()
-            .UseSqlite(CreateInMemoryDatabase())
-            .Options)
-    { }
-
     public DbSet<User> Users => Set<User>();
     public DbSet<Blog> Blogs => Set<Blog>();
     public DbSet<Post> Posts => Set<Post>();
 
-    private static DbConnection CreateInMemoryDatabase()
+    private static DbContextOptions<TestDbContext> BuildOptions()
+    {
+        DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
+            .UseSqlite(CreateInMemoryDatabase())
+            .Options;
+
+        return options;
+    }
+
+    private static SqliteConnection CreateInMemoryDatabase()
     {
         var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();

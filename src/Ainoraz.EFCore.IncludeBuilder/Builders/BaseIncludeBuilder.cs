@@ -5,7 +5,7 @@ namespace Ainoraz.EFCore.IncludeBuilder.Builders;
 
 internal abstract class BaseIncludeBuilder<TBase> where TBase : class
 {
-    internal List<BaseIncludeBuilder<TBase>> ChildBuilders { get; } = new();
+    internal List<BaseIncludeBuilder<TBase>> ChildBuilders { get; } = [];
     internal BaseIncludeBuilder<TBase>? ParentBuilder { get; }
 
     internal BaseIncludeBuilder(BaseIncludeBuilder<TBase>? parentBuilder)
@@ -18,7 +18,7 @@ internal abstract class BaseIncludeBuilder<TBase> where TBase : class
     internal IEnumerable<BaseIncludeBuilder<TBase>> GetLeafNodes()
     {
         if (!ChildBuilders.Any())
-            return new[] { this };
+            return [this];
 
         return ChildBuilders.SelectMany(i => i.GetLeafNodes());
     }

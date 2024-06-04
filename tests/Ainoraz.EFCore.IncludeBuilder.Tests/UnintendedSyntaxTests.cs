@@ -8,25 +8,16 @@ using Xunit;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 
-public class UnintendedSyntaxTests : IDisposable
+public sealed class UnintendedSyntaxTests : IDisposable
 {
-    public TestDbContext testDbContext;
+    private readonly TestDbContext _testDbContext = new();
 
-    public UnintendedSyntaxTests()
-    {
-        testDbContext = new TestDbContext();
-    }
-
-    public void Dispose()
-    {
-        testDbContext.Dispose();
-        GC.SuppressFinalize(this);
-    }
+    public void Dispose() => _testDbContext.Dispose();
 
     [Fact]
     public void UseBuilderTwice_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog)
             .Build()
@@ -35,7 +26,7 @@ public class UnintendedSyntaxTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
             .Include(u => u.Posts)
             .ToQueryString();
@@ -46,7 +37,7 @@ public class UnintendedSyntaxTests : IDisposable
     [Fact]
     public void DuplicateMultiLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts)
@@ -59,7 +50,7 @@ public class UnintendedSyntaxTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .Include(u => u.OwnedBlog)
@@ -76,7 +67,7 @@ public class UnintendedSyntaxTests : IDisposable
     [Fact]
     public void DuplicateFilteredMultiLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
@@ -89,7 +80,7 @@ public class UnintendedSyntaxTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Include(u => u.OwnedBlog)
@@ -106,7 +97,7 @@ public class UnintendedSyntaxTests : IDisposable
     [Fact]
     public void UseTwoBuildersWithFilterAndWithoutFilter_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
@@ -121,7 +112,7 @@ public class UnintendedSyntaxTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Include(u => u.OwnedBlog)
@@ -138,7 +129,7 @@ public class UnintendedSyntaxTests : IDisposable
     [Fact]
     public void NavigationFixup_WarningThrown()
     {
-        Action action = () => testDbContext.Users
+        Action action = () => _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Author)

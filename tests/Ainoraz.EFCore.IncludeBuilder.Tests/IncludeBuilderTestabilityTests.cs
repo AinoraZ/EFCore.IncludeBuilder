@@ -13,7 +13,7 @@ namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 /// <summary>
 /// It is important to make sure IncludeBuilder does not throw when testing with in memory enumerables and mocks.
 /// </summary>
-public class IncludeBuilderTestabilityTests
+public sealed class IncludeBuilderTestabilityTests
 {
     [Theory]
     [IncludeAutoData]

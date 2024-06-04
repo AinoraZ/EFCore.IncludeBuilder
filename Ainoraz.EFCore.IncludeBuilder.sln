@@ -17,6 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		tests\Directory.Build.props = tests\Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{A8BB589A-31CA-43F5-9E8B-4F2170EBD1B2}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-ci.yml = .github\workflows\build-ci.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
 Global
@@ -47,5 +54,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18927A07-C010-44E9-B70C-F8E6F28ACE46}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8BB589A-31CA-43F5-9E8B-4F2170EBD1B2} = {DB36BD08-E8A0-4299-804F-CD128D2A9075}
 	EndGlobalSection
 EndGlobal

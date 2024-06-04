@@ -10,23 +10,15 @@ namespace Ainoraz.EFCore.IncludeBuilder.Benchmarks;
 [MemoryDiagnoser]
 public class MultiIncludeVsUseIncludeBuilder
 {
-    private readonly TestDbContext testDbContext;
-
-    public MultiIncludeVsUseIncludeBuilder()
-    {
-        testDbContext = new TestDbContext();
-    }
+    private readonly TestDbContext _testDbContext = new();
 
     [GlobalCleanup]
-    public void GlobalCleanup()
-    {
-        testDbContext.Dispose();
-    }
+    public void GlobalCleanup() => _testDbContext.Dispose();
 
     [Benchmark(Baseline = true)]
     public string Include()
     {
-        return testDbContext.Users
+        return _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
                     .ThenInclude(p => p.Readers)
@@ -47,7 +39,7 @@ public class MultiIncludeVsUseIncludeBuilder
     [Benchmark]
     public string Include_DuplicatedFilter()
     {
-        return testDbContext.Users
+        return _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
                     .ThenInclude(p => p.Readers)
@@ -68,7 +60,7 @@ public class MultiIncludeVsUseIncludeBuilder
     [Benchmark]
     public string UseIncludeBuilder()
     {
-        return testDbContext.Users
+        return _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)), builder => builder

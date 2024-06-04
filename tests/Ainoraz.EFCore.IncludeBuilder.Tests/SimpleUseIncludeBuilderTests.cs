@@ -6,34 +6,26 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ainoraz.EFCore.IncludeBuilder.Tests.Extensions;
 using Xunit;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 
-public class SimpleUseIncludeBuilderTests : IDisposable
+public sealed class SimpleUseIncludeBuilderTests : IDisposable
 {
-    public TestDbContext testDbContext;
+    private readonly TestDbContext _testDbContext = new();
 
-    public SimpleUseIncludeBuilderTests()
-    {
-        testDbContext = new TestDbContext();
-    }
-
-    public void Dispose()
-    {
-        testDbContext.Dispose();
-        GC.SuppressFinalize(this);
-    }
+    public void Dispose() => _testDbContext.Dispose();
 
     [Fact]
     public void NoIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .ToQueryString();
 
         actualQuery.Should().Be(expectedQuery).And.NotBeEmpty();
@@ -58,13 +50,13 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void SingleRootInclude_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog)
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
             .ToQueryString();
 
@@ -74,13 +66,13 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentRootIncludes_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog)
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .ToQueryString();
 
         actualQuery.Should().NotBe(expectedQuery).And.NotBeEmpty();
@@ -89,14 +81,14 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void TwoRootIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog)
             .Include(u => u.FollowingBlogs)
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
@@ -107,14 +99,14 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void TwoMixedIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog)
             .Build()
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
@@ -125,13 +117,13 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentMixedIncludes_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Build()
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
             .Include(u => u.FollowingBlogs)
             .ToQueryString();
@@ -142,7 +134,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void SingleFirstLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts)
@@ -150,7 +142,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .ToQueryString();
@@ -161,7 +153,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void MultipleFirstLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts)
@@ -170,7 +162,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .Include(u => u.OwnedBlog)
@@ -183,7 +175,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentFirstLevelIncludes_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts)
@@ -192,7 +184,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .ToQueryString();
@@ -203,7 +195,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void MultiLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts, builder => builder
@@ -220,7 +212,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
                     .ThenInclude(p => p.Readers)
@@ -243,7 +235,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentMultiLevelIncludes_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts, builder => builder
@@ -259,7 +251,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
                     .ThenInclude(p => p.Readers)
@@ -282,13 +274,13 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void RootLevelExtensionIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Blogs
+        var actualQuery = _testDbContext.Blogs
             .UseIncludeBuilder()
             .IncludeBlogChildren()
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Blogs
+        var expectedQuery = _testDbContext.Blogs
             .Include(u => u.Posts)
             .ToQueryString();
 
@@ -298,7 +290,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void MultiLevelExtensionIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .IncludeBlogChildren()
@@ -311,7 +303,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .Include(u => u.OwnedBlog)
@@ -326,7 +318,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentMultiLevelExtensionIncludes_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .IncludeBlogChildren()
@@ -337,7 +329,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .Include(u => u.OwnedBlog)
@@ -352,7 +344,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void IncludeChain_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog.Posts, builder => builder
                 .Include(p => p.Readers)
@@ -360,7 +352,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog.Posts)
                 .ThenInclude(p => p.Readers)
             .ToQueryString();
@@ -371,7 +363,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentIncludeChain_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog.Posts, builder => builder
                 .Include(p => p.Readers)
@@ -379,7 +371,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog.Posts)
             .ToQueryString();
 
@@ -389,7 +381,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void CollectionIncludeChain_ShouldMatch()
     {
-        var actualQuery = testDbContext.Blogs
+        var actualQuery = _testDbContext.Blogs
             .UseIncludeBuilder()
             .Include(b => b.Posts, builder => builder
                 .Include(p => p.Readers, builder => builder
@@ -399,7 +391,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Blogs
+        var expectedQuery = _testDbContext.Blogs
             .Include(b => b.Posts)
                 .ThenInclude(p => p.Readers)
                     .ThenInclude(r => r.Posts)
@@ -411,7 +403,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
     [Fact]
     public void CollectionIncludeWithTypes_ShouldMatch()
     {
-        var actualQuery = testDbContext.Blogs
+        var actualQuery = _testDbContext.Blogs
             .UseIncludeBuilder()
             .Include((Blog b) => b.Posts, builder => builder
                 .Include((Post p) => p.Readers, builder => builder
@@ -421,7 +413,7 @@ public class SimpleUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Blogs
+        var expectedQuery = _testDbContext.Blogs
             .Include(b => b.Posts)
                 .ThenInclude(p => p.Readers)
                     .ThenInclude(r => r.Posts)

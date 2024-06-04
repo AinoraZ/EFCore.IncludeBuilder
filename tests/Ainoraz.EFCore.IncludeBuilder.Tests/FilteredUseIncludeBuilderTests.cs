@@ -4,35 +4,27 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using Ainoraz.EFCore.IncludeBuilder.Tests.Extensions;
 using Xunit;
 
 namespace Ainoraz.EFCore.IncludeBuilder.Tests;
 
-public class FilteredUseIncludeBuilderTests : IDisposable
+public sealed class FilteredUseIncludeBuilderTests : IDisposable
 {
-    public TestDbContext testDbContext;
+    private readonly TestDbContext _testDbContext = new();
 
-    public FilteredUseIncludeBuilderTests()
-    {
-        testDbContext = new TestDbContext();
-    }
-
-    public void Dispose()
-    {
-        testDbContext.Dispose();
-        GC.SuppressFinalize(this);
-    }
+    public void Dispose() => _testDbContext.Dispose();
 
     [Fact]
     public void SingleRootIncludeFilter_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
 
@@ -42,13 +34,13 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentRootIncludeFilter_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.Posts)
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
 
@@ -59,14 +51,14 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     public void TwoFilteredRootIncludes_ShouldMatchExpected()
     {
         var authorId = Guid.NewGuid();
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Include(u => u.FollowingBlogs.Where(b => b.AuthorId == authorId))
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Include(u => u.FollowingBlogs.Where(b => b.AuthorId == authorId))
             .ToQueryString();
@@ -78,14 +70,14 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     public void TwoFilteredMixedIncludes_ShouldMatchExpected()
     {
         var authorId = Guid.NewGuid();
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Build()
             .Include(u => u.FollowingBlogs.Where(b => b.AuthorId == authorId))
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Include(u => u.FollowingBlogs.Where(b => b.AuthorId == authorId))
             .ToQueryString();
@@ -96,7 +88,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     [Fact]
     public void SingleFilteredFirstLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
@@ -104,7 +96,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
@@ -115,7 +107,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     [Fact]
     public void DifferentFilteredFirstLevelIncludes_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts)
@@ -123,7 +115,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .ToQueryString();
@@ -134,7 +126,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     [Fact]
     public void MultipleFilteredFirstLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
@@ -143,7 +135,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
             .Include(u => u.OwnedBlog)
@@ -156,7 +148,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     [Fact]
     public void FilteredMultiLevelIncludes_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .Include(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)), builder => builder
@@ -173,7 +165,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
                     .ThenInclude(p => p.Readers)
@@ -197,7 +189,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     public void FilteredExtensionIncludes_ShouldMatchExpected()
     {
         var authorId = Guid.NewGuid();
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .IncludeBlogChildren()
@@ -210,7 +202,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .Include(u => u.OwnedBlog)
@@ -226,7 +218,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     public void DifferentFilteredExtensionIncludes_ShouldNotMatch()
     {
         var authorId = Guid.NewGuid();
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog, builder => builder
                 .IncludeBlogChildren()
@@ -239,7 +231,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog)
                 .ThenInclude(b => b.Posts)
             .Include(u => u.OwnedBlog)
@@ -254,7 +246,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     [Fact]
     public void FilteredIncludeChain_ShouldMatchExpected()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)), builder => builder
                 .Include(p => p.Readers)
@@ -262,7 +254,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)))
                 .ThenInclude(p => p.Readers)
             .ToQueryString();
@@ -273,7 +265,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
     [Fact]
     public void FilteredDifferentIncludeChain_ShouldNotMatch()
     {
-        var actualQuery = testDbContext.Users
+        var actualQuery = _testDbContext.Users
             .UseIncludeBuilder()
             .Include(u => u.OwnedBlog.Posts.Where(p => p.PostDate > DateTime.UtcNow.AddDays(-7)), builder => builder
                 .Include(p => p.Readers)
@@ -281,7 +273,7 @@ public class FilteredUseIncludeBuilderTests : IDisposable
             .Build()
             .ToQueryString();
 
-        var expectedQuery = testDbContext.Users
+        var expectedQuery = _testDbContext.Users
             .Include(u => u.OwnedBlog.Posts)
                 .ThenInclude(p => p.Readers)
             .ToQueryString();
